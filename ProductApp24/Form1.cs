@@ -18,19 +18,22 @@ namespace ProductApp24
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string name = txtName.Text;
-                double price = double.Parse(txtPrice.Text);
-                double quantity = double.Parse(txtQuantity.Text);
-                Product product = new Product(name, price, quantity);
-                products.Add(product);
-            }
-            catch (FormatException ex)
-            {
+            string name = txtName.Text;
 
-                MessageBox.Show("Моля, въведете коректни данни", "Грешка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!double.TryParse(txtPrice.Text, out double price))
+            {
+                MessageBox.Show("Моля, въведете коректна цена", "Грешка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
+
+            if (!double.TryParse(txtQuantity.Text, out double quantity))
+            {
+                MessageBox.Show("Моля, въведете коректна количество", "Грешка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Product product = new Product(name, price, quantity);
+            products.Add(product);
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
